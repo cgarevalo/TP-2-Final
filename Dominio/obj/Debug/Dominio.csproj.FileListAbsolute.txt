@@ -1,0 +1,6 @@
+A:\Archivos\Cristian\Repositorios de github\TPFinalNivel2\TPFinalNivel2_Arevalo\Dominio\bin\Debug\Dominio.dll
+A:\Archivos\Cristian\Repositorios de github\TPFinalNivel2\TPFinalNivel2_Arevalo\Dominio\bin\Debug\Dominio.pdb
+A:\Archivos\Cristian\Repositorios de github\TPFinalNivel2\TPFinalNivel2_Arevalo\Dominio\obj\Debug\Dominio.csproj.AssemblyReference.cache
+A:\Archivos\Cristian\Repositorios de github\TPFinalNivel2\TPFinalNivel2_Arevalo\Dominio\obj\Debug\Dominio.csproj.CoreCompileInputs.cache
+A:\Archivos\Cristian\Repositorios de github\TPFinalNivel2\TPFinalNivel2_Arevalo\Dominio\obj\Debug\Dominio.dll
+A:\Archivos\Cristian\Repositorios de github\TPFinalNivel2\TPFinalNivel2_Arevalo\Dominio\obj\Debug\Dominio.pdb

@@ -1,0 +1,9 @@
+A:\Archivos\Cristian\Repositorios de github\TPFinalNivel2\TPFinalNivel2_Arevalo\Logica\bin\Debug\Logica.dll
+A:\Archivos\Cristian\Repositorios de github\TPFinalNivel2\TPFinalNivel2_Arevalo\Logica\bin\Debug\Logica.pdb
+A:\Archivos\Cristian\Repositorios de github\TPFinalNivel2\TPFinalNivel2_Arevalo\Logica\bin\Debug\Dominio.dll
+A:\Archivos\Cristian\Repositorios de github\TPFinalNivel2\TPFinalNivel2_Arevalo\Logica\bin\Debug\Dominio.pdb
+A:\Archivos\Cristian\Repositorios de github\TPFinalNivel2\TPFinalNivel2_Arevalo\Logica\obj\Debug\Logica.csproj.AssemblyReference.cache
+A:\Archivos\Cristian\Repositorios de github\TPFinalNivel2\TPFinalNivel2_Arevalo\Logica\obj\Debug\Logica.csproj.CoreCompileInputs.cache
+A:\Archivos\Cristian\Repositorios de github\TPFinalNivel2\TPFinalNivel2_Arevalo\Logica\obj\Debug\Logica.csproj.CopyComplete
+A:\Archivos\Cristian\Repositorios de github\TPFinalNivel2\TPFinalNivel2_Arevalo\Logica\obj\Debug\Logica.dll
+A:\Archivos\Cristian\Repositorios de github\TPFinalNivel2\TPFinalNivel2_Arevalo\Logica\obj\Debug\Logica.pdb
