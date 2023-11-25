@@ -25,11 +25,15 @@ namespace Presentacion
 
         private void DetallesArticulos_Load(object sender, EventArgs e)
         {
-            List<Articulo> detallesArticulo = new List<Articulo>();
-            detallesArticulo.Add(articulo);
-            dgvDetalles.DataSource = detallesArticulo;
-            dgvDetalles.Columns["Id"].Visible = false;
-
+            dgvDetalles.Rows.Add("Id", articulo.Id);
+            dgvDetalles.Rows.Add("Código", articulo.CodigoArticulo);
+            dgvDetalles.Rows.Add("Nombre", articulo.Nombre);
+            dgvDetalles.Rows.Add("Descripción", articulo.Descripcion);
+            dgvDetalles.Rows.Add("Imagen", articulo.Imagen);
+            dgvDetalles.Rows.Add("Marca", articulo.Marca.Descripcion);
+            dgvDetalles.Rows.Add("Categoría", articulo.Categoria.Descripcion);
+            dgvDetalles.Rows.Add("Precio", articulo.Precio);
+       
             CargarImagen(articulo.Imagen);
         }
 

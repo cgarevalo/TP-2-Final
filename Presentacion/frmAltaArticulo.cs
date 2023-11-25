@@ -72,6 +72,8 @@ namespace Presentacion
 
         private void btnAgregar_Click(object sender, EventArgs e)
         {
+            decimal precio;
+
             try
             {
                 if (artic == null)
@@ -83,7 +85,17 @@ namespace Presentacion
                 artic.Nombre = txtNombre.Text;
                 artic.Descripcion = txtDescripcion.Text;
                 artic.Imagen = txtImagenUrl.Text;
-                artic.Precio = decimal.Parse(txtPrecio.Text);
+
+                if (decimal.TryParse(txtPrecio.Text, out precio))
+                {
+                    artic.Precio = precio;
+                }
+                else
+                {
+                    MessageBox.Show("'Precio' solo admite números.");
+                    return;
+                }
+
                 artic.Categoria = (Categoria)cboCategoria.SelectedItem;
                 artic.Marca = (Marca)cboMarca.SelectedItem;
 

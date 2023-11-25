@@ -25,11 +25,6 @@ namespace Presentacion
         private void Form1_Load(object sender, EventArgs e)
         {
             Refrescar();
-
-            cboFiltroCampo.Items.Add("Precio");
-            cboFiltroCampo.Items.Add("Marca");
-            cboFiltroCampo.Items.Add("Categoría");
-
         }
 
         private void Refrescar()
@@ -104,111 +99,6 @@ namespace Presentacion
             }
         }
 
-        private bool ValidarFiltro()
-        {
-            if (cboFiltroCampo.SelectedIndex < 0)
-            {
-                MessageBox.Show("Seleccione un campo.");
-                return true;
-
-            }
-            if (cboFiltroCriterio.SelectedIndex < 0)
-            {
-                MessageBox.Show("Seleccione un criterio.");
-                return true;
-
-            }
-            if (cboFiltroCampo.SelectedItem.ToString() == "Precio")
-            {
-                if (string.IsNullOrEmpty(txtFiltro.Text))
-                {
-                    if (!(SoloNumeros(txtFiltro.Text)))
-                    {
-                        MessageBox.Show("Solo números.");
-                        return true;
-                    }
-                }
-            }
-
-            return false;
-        }
-
-        private void cboFiltroCampo_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            string opcion = cboFiltroCampo.SelectedItem.ToString();
-
-            if (opcion == "Precio")
-            {
-                cboFiltroCriterio.Items.Clear();
-                cboFiltroCriterio.Items.Add("Menor a");
-                cboFiltroCriterio.Items.Add("Mayor a");
-                cboFiltroCriterio.Items.Add("Igual a");
-            }
-            else if (opcion == "Marca")
-            {
-                cboFiltroCriterio.Items.Clear();
-                cboFiltroCriterio.DataSource = logica.ListaMarcas();
-            }
-            else
-            {
-                cboFiltroCriterio.DataSource = logica.ListaCategorias();
-            }
-        }
-
-        private bool SoloNumeros(string cadena)
-        {
-            foreach (char caracter in cadena)
-            {
-                if (char.IsNumber(caracter))
-                {
-                    return false;
-                }
-            }
-
-            return true;
-
-        }
-
-        private void btnFiltrar_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                string campo = cboFiltroCampo.SelectedItem?.ToString();
-                string criterio = cboFiltroCriterio.SelectedItem?.ToString();
-                string filtro = txtFiltro.Text;
-
-                if (string.IsNullOrEmpty(campo) || string.IsNullOrEmpty(criterio) || string.IsNullOrEmpty(filtro))
-                {
-                    MessageBox.Show("Por favor, seleccione un campo, un criterio y proporcione un valor para filtrar.");
-                    return;
-                }
-
-                List<Articulo> listaFiltro = logica.Filtrar(campo, criterio, filtro);
-                dgvArticulos.DataSource = listaFiltro;
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.ToString());
-            }
-            /*try
-            {
-                if (!(ValidarFiltro()))
-                {
-                    return;
-                }
-                string campo = cboFiltroCampo.SelectedItem.ToString();
-                string criterio = cboFiltroCriterio.SelectedItem.ToString();
-                string filtro = txtFiltro.Text;
-                dgvArticulos.DataSource = logica.Filtrar(campo, criterio, filtro);
-
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.ToString());
-            }*/
-
-        }
-
         private void OcultarColumnas()
         {
             //Escuende la columna "ImagenUrl" del dgv
@@ -220,19 +110,19 @@ namespace Presentacion
 
         private void btnDetalles_Click(object sender, EventArgs e)
         {
-            if (dgvArticulos.SelectedRows.Count > 0)
+            if (dgvArticulos.SelectedRows.Count > 0 && dgvArticulos.CurrentRow != null)
             {
                 Articulo seleccionado;
                 seleccionado = (Articulo)dgvArticulos.CurrentRow.DataBoundItem;
                 frmDetallesArticulos detalles = new frmDetallesArticulos(seleccionado);
                 detalles.ShowDialog();
                 Refrescar();
+                txtFiltro.Text = "";
             }
-        }
-
-        private void btnFiltrar_Click_1(object sender, EventArgs e)
-        {   
-
+            else
+            {
+                MessageBox.Show("Seleccione un artículo");
+            }
         }
 
         private void txtFiltro_TextChanged(object sender, EventArgs e)
@@ -242,7 +132,7 @@ namespace Presentacion
 
             if (filtro.Length >= 2)
             {
-                listaFiltrada = listaArticulos.FindAll(a => a.Nombre.ToUpper().Contains(filtro.ToUpper()) || a.CodigoArticulo.ToUpper().Contains(filtro.ToUpper()) || a.Descripcion.ToUpper().Contains(filtro.ToUpper()));
+                listaFiltrada = listaArticulos.FindAll(a => a.Nombre.ToUpper().Contains(filtro.ToUpper()) || a.CodigoArticulo.ToUpper().Contains(filtro.ToUpper()) || a.Descripcion.ToUpper().Contains(filtro.ToUpper()) || a.Marca.Descripcion.ToUpper().Contains(filtro.ToUpper()) || a.Categoria.Descripcion.ToUpper().Contains(filtro.ToUpper()));
             }
             else
             {
@@ -252,7 +142,6 @@ namespace Presentacion
             dgvArticulos.DataSource = null;
             dgvArticulos.DataSource = listaFiltrada;
             OcultarColumnas();
-
         }
     }
 }
