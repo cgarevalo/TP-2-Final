@@ -12,6 +12,7 @@ namespace Logica
     {
         AccesoDatos datosAcceso = new AccesoDatos();
 
+        // Método para obtener la lista de artículos desde la base de datos
         public List<Articulo> ListarArticulos()
         {
             List<Articulo> listaArticulos = new List<Articulo>();
@@ -23,6 +24,7 @@ namespace Logica
 
                 while (datosAcceso.Lector.Read())
                 {
+                    // Crea un nuevo objeto Articulo y lo agrega a la lista
                     Articulo art = new Articulo();
 
                     art.Id = (int)datosAcceso.Lector["idArt"];
@@ -61,8 +63,9 @@ namespace Logica
             }
         }
 
+        // Método para obtener la lista de marcas desde la base de datos
         public List<Marca> ListaMarcas()
-        {
+        {          
             List<Marca> listaMarcas = new List<Marca>();
 
             try
@@ -94,6 +97,7 @@ namespace Logica
             }
         }
 
+        // Método para obtener la lista de categorías desde la base de datos
         public List<Categoria> ListaCategorias()
         {
             List<Categoria> listaCategorias = new List<Categoria>();
@@ -125,6 +129,7 @@ namespace Logica
             }
         }
 
+        // Método para agregar un nuevo artículo a la base de datos
         public void Agregar(Articulo nuevoArticulo)
         {
             try
@@ -152,6 +157,7 @@ namespace Logica
             }
         }
 
+        // Método para modificar un artículo en la base de datos
         public void Modificar(Articulo modificarArt)
         {
             try
@@ -180,6 +186,7 @@ namespace Logica
             }
         }
 
+        // Método para agregar una Categoría a la base de datos
         public void AgregarCategoria(Categoria nuevaCategoria)
         {
             try
@@ -199,6 +206,7 @@ namespace Logica
             }
         }
 
+        // Método para agregar una Marca a la base de datos
         public void AgregarMarca(Marca nuevaMarca)
         {
             try
@@ -218,12 +226,13 @@ namespace Logica
             }
         }
 
+        // Método para eliminar un artículo de la base de datos
         public void Eliminar(int id)
         {
             try
             {
-                datosAcceso.SetearConsulta("Delete From ARTICULOS Where Id = @id");
-                datosAcceso.SetearParametro("@id", id);
+                datosAcceso.SetearConsulta("Delete From ARTICULOS Where Id = @idArt");
+                datosAcceso.SetearParametro("@idArt", id);
                 datosAcceso.EjecutarAccion();
 
             }

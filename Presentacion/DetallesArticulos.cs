@@ -15,8 +15,9 @@ namespace Presentacion
     public partial class frmDetallesArticulos : Form
     {
         private Articulo articulo;
-        LogicaComercio logica = new LogicaComercio(); 
+        LogicaComercio logica = new LogicaComercio();
 
+        // Constructor del formulario que recibe un artículo como parámetro.
         public frmDetallesArticulos(Articulo articulo)
         {
             InitializeComponent();
@@ -25,6 +26,7 @@ namespace Presentacion
 
         private void DetallesArticulos_Load(object sender, EventArgs e)
         {
+            // Agrega la información detallada, en filas, del artículo seleccionado
             dgvDetalles.Rows.Add("Id", articulo.Id);
             dgvDetalles.Rows.Add("Código", articulo.CodigoArticulo);
             dgvDetalles.Rows.Add("Nombre", articulo.Nombre);
@@ -34,6 +36,7 @@ namespace Presentacion
             dgvDetalles.Rows.Add("Categoría", articulo.Categoria.Descripcion);
             dgvDetalles.Rows.Add("Precio", articulo.Precio);
        
+            // Carga la imagen del artículo al PictureBox
             CargarImagen(articulo.Imagen);
         }
 

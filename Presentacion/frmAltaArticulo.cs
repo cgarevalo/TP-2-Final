@@ -24,6 +24,7 @@ namespace Presentacion
 
         public frmAltaArticulo(Articulo articulo)
         {
+            // Constructor utilizado para modificar un artículo existente, recibe un artículo como parámetro
             InitializeComponent();
             artic = articulo;
             Text = "Modificar artículo"; //Cambia el título de la ventana
@@ -76,25 +77,44 @@ namespace Presentacion
 
             try
             {
+                // Si artic llega en null significa que se quiere crea un nuevo artículo, si no, significa que se quiere modificar uno existente
                 if (artic == null)
                 {
                     artic = new Articulo();
                 }
 
-                artic.CodigoArticulo = txtCodigoArticulo.Text;
-                artic.Nombre = txtNombre.Text;
-                artic.Descripcion = txtDescripcion.Text;
-                artic.Imagen = txtImagenUrl.Text;
+                string codigo = txtCodigoArticulo.Text;
+                string nombre = txtNombre.Text;
+                string descripcion = txtDescripcion.Text;
+                string imagen = txtImagenUrl.Text;
 
-                if (decimal.TryParse(txtPrecio.Text, out precio))
+                // Verifica que los TextBox tengan algo escrito
+                if (!string.IsNullOrWhiteSpace(codigo) && !string.IsNullOrWhiteSpace(nombre) && !string.IsNullOrWhiteSpace(descripcion) && !string.IsNullOrWhiteSpace(imagen))
                 {
-                    artic.Precio = precio;
+                    artic.CodigoArticulo = codigo;
+                    artic.Nombre = nombre;
+                    artic.Descripcion = descripcion;
+                    artic.Imagen = imagen;
                 }
                 else
                 {
-                    MessageBox.Show("'Precio' solo admite números.");
+                    MessageBox.Show("Por favor, rellene todos los campos.");
                     return;
                 }
+
+                // 
+                // Verifica si txtPrecio está vacío, y si se ingresó un número
+                if (decimal.TryParse(txtPrecio.Text, out precio) && txtPrecio.Text.Trim() != "")
+                {
+                    artic.Precio = precio;                   
+                }
+                else
+                {
+                    MessageBox.Show("El campo 'Precio' no puede estár vacío, y solo admite números.");
+                    return;
+                }
+
+                // Carga como marca y categoría lo que se tenga seleccionado en el cboMarca y cboCategoria, mientras no sea "Nueva Marca" y "Nueva categoría"
 
                 artic.Categoria = (Categoria)cboCategoria.SelectedItem;
                 artic.Marca = (Marca)cboMarca.SelectedItem;
@@ -124,6 +144,7 @@ namespace Presentacion
             Close();
         }
 
+        // Método para cargar la una imagen
         private void CargarImagen(string imagen)
         {
             try
@@ -136,11 +157,13 @@ namespace Presentacion
             }
         }
 
+        // Método que llama al método CargarImagen, para que cargue la imagen despues de salir del txtImagenUrl
         private void txtImagenUrl_Leave(object sender, EventArgs e)
         {
             CargarImagen(txtImagenUrl.Text);
         }
 
+        // Método que detecta si se seleccionó "Nueva marca", y le permite escribir la nueva marca deseada
         private void cboMarca_SelectedIndexChanged(object sender, EventArgs e)
         {
             string marcSelec = cboMarca.SelectedItem.ToString();
@@ -152,6 +175,7 @@ namespace Presentacion
             } 
         }
 
+        // Guarda la nueva marca, llamando al método AgregarMarca, y lo agraga al cboMarca
         private void btnGuardarMarca_Click(object sender, EventArgs e)
         {
             try
@@ -181,6 +205,7 @@ namespace Presentacion
             }
         }
 
+        // Método que detecta si se seleccionó "Nueva categoría", y le permite escribir la nueva categoría deseada
         private void cboCategoria_SelectedIndexChanged(object sender, EventArgs e)
         {
             string cateSelec = cboCategoria.SelectedItem.ToString();
@@ -192,6 +217,7 @@ namespace Presentacion
             }
         }
 
+        // Guarda la nueva categoría, llamando al método AgregarCategoria, y lo agraga al cboCategoria
         private void btnGuardarCategoria_Click(object sender, EventArgs e)
         {
             try

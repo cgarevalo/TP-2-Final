@@ -37,6 +37,7 @@ namespace Presentacion
         }
         private void dgvArticulos_SelectionChanged(object sender, EventArgs e)
         {
+            // Muestra la imagen del artículo seleccionado en el PictureBox.
             if (dgvArticulos.CurrentRow != null)
             {
                 Articulo articuloSeleccionado = (Articulo)dgvArticulos.CurrentRow.DataBoundItem;
@@ -69,7 +70,10 @@ namespace Presentacion
         private void btnModificar_Click(object sender, EventArgs e)
         {
             Articulo artSeleccionado;
+            // Obtiene el artículo seleccionado en el DataGridView.
             artSeleccionado = (Articulo)dgvArticulos.CurrentRow.DataBoundItem;
+
+            // Abre el formulario para modificar el artículo seleccionado.
             frmAltaArticulo modificar = new frmAltaArticulo(artSeleccionado);
 
             modificar.ShowDialog();
@@ -113,7 +117,10 @@ namespace Presentacion
             if (dgvArticulos.SelectedRows.Count > 0 && dgvArticulos.CurrentRow != null)
             {
                 Articulo seleccionado;
+                // Obtiene el artículo seleccionado en el DataGridView.
                 seleccionado = (Articulo)dgvArticulos.CurrentRow.DataBoundItem;
+
+                // Abre el formulario de detalles del artículo seleccionado.
                 frmDetallesArticulos detalles = new frmDetallesArticulos(seleccionado);
                 detalles.ShowDialog();
                 Refrescar();
@@ -132,10 +139,12 @@ namespace Presentacion
 
             if (filtro.Length >= 2)
             {
+                // Filtra la lista de artículos según el texto ingresado en el filtro.
                 listaFiltrada = listaArticulos.FindAll(a => a.Nombre.ToUpper().Contains(filtro.ToUpper()) || a.CodigoArticulo.ToUpper().Contains(filtro.ToUpper()) || a.Descripcion.ToUpper().Contains(filtro.ToUpper()) || a.Marca.Descripcion.ToUpper().Contains(filtro.ToUpper()) || a.Categoria.Descripcion.ToUpper().Contains(filtro.ToUpper()));
             }
             else
             {
+                // Si el filtro es corto o se borra lo escrito, muestra la lista completa de artículos.
                 listaFiltrada = listaArticulos;
             }
 
