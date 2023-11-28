@@ -46,6 +46,10 @@ namespace Logica
             {
                 throw ex;
             }
+            finally
+            {
+                LimpiarParametros();
+            }
         }
 
         public void EjecutarAccion()
@@ -61,6 +65,10 @@ namespace Logica
             catch (Exception ex)
             {
                 throw ex;
+            }
+            finally
+            {
+                LimpiarParametros();
             }
         }
 
@@ -96,6 +104,16 @@ namespace Logica
             {
                 throw ex;
             }
+            finally
+            {
+                LimpiarParametros();
+            }
+        }
+
+        // Limpia los parámetros después de ejecutar una consulta
+        private void LimpiarParametros()
+        {
+            comando.Parameters.Clear();
         }
     }
 }

@@ -200,6 +200,7 @@
             // 
             // btnGuardarMarca
             // 
+            this.btnGuardarMarca.Enabled = false;
             this.btnGuardarMarca.Location = new System.Drawing.Point(242, 187);
             this.btnGuardarMarca.Name = "btnGuardarMarca";
             this.btnGuardarMarca.Size = new System.Drawing.Size(103, 23);
@@ -210,6 +211,7 @@
             // 
             // btnGuardarCategoria
             // 
+            this.btnGuardarCategoria.Enabled = false;
             this.btnGuardarCategoria.Location = new System.Drawing.Point(242, 226);
             this.btnGuardarCategoria.Name = "btnGuardarCategoria";
             this.btnGuardarCategoria.Size = new System.Drawing.Size(103, 23);

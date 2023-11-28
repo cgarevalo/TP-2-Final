@@ -89,7 +89,7 @@ namespace Presentacion
                 string imagen = txtImagenUrl.Text;
 
                 // Verifica que los TextBox tengan algo escrito
-                if (!string.IsNullOrWhiteSpace(codigo) && !string.IsNullOrWhiteSpace(nombre) && !string.IsNullOrWhiteSpace(descripcion) && !string.IsNullOrWhiteSpace(imagen))
+                if (!string.IsNullOrWhiteSpace(codigo) && !string.IsNullOrWhiteSpace(nombre) && !string.IsNullOrWhiteSpace(descripcion) && !string.IsNullOrWhiteSpace(imagen) && !string.IsNullOrWhiteSpace(cboCategoria.Text) && !string.IsNullOrWhiteSpace(cboMarca.Text))
                 {
                     artic.CodigoArticulo = codigo;
                     artic.Nombre = nombre;
@@ -166,37 +166,78 @@ namespace Presentacion
         // Método que detecta si se seleccionó "Nueva marca", y le permite escribir la nueva marca deseada
         private void cboMarca_SelectedIndexChanged(object sender, EventArgs e)
         {
-            string marcSelec = cboMarca.SelectedItem.ToString();
-
-            if (marcSelec == "Nueva marca")
+            if (!string.IsNullOrWhiteSpace(cboMarca.Text))
             {
-                MessageBox.Show("Ingrese la nueva marca.");
-                cboMarca.DropDownStyle = ComboBoxStyle.DropDown;
-            } 
+                string marcSelec = cboMarca.SelectedItem.ToString();
+
+                if (marcSelec == "Nueva marca")
+                {
+                    MessageBox.Show("Ingrese la nueva marca.");
+
+                    // Modifica el cboMarca para que se pueda escribir
+                    cboMarca.DropDownStyle = ComboBoxStyle.DropDown;
+
+                    // Activa el botón Guardar marca
+                    btnGuardarMarca.Enabled = true;
+                }
+                else
+                {
+                    // Modifica el cboMarca para que ya no se pueda escribir
+                    cboMarca.DropDownStyle = ComboBoxStyle.DropDownList;
+
+                    // Desactiva el bóton Guardar marca
+                    btnGuardarMarca.Enabled = false;
+                }
+            }
         }
 
-        // Guarda la nueva marca, llamando al método AgregarMarca, y lo agraga al cboMarca
+        // Guarda la nueva marca, llamando al método AgregarMarca, y lo agrega al cboMarca
         private void btnGuardarMarca_Click(object sender, EventArgs e)
         {
             try
             {
                 string descripcionMarca = cboMarca.Text;
 
-                if (!(string.IsNullOrEmpty(descripcionMarca)))
+                // Verifica si el campo CboMarca está vacío
+                if (!string.IsNullOrEmpty(descripcionMarca))
                 {
-                    Marca nuavaMarca = new Marca { Descripcion = descripcionMarca };
-                    altaLogica.AgregarMarca(nuavaMarca);
-                    MessageBox.Show("Marca agregada.");
+                    // Lista que contiene todas las marcas para comprobar si existe en la base de datos. También contiene un objeto nuevo 'Marca' con la descripción 'Nueva marca' para que no permita guardar una marca llamada 'Nueva marca' en la base de datos.
+                    List<Marca> listaConMarcas = altaLogica.ListaMarcas();
+                    listaConMarcas.Add(new Marca { Descripcion = "Nueva marca" });
 
-                    // Actualiza la lista de marcas después de agregar la nueva
-                    List<Marca> marcaNueva = altaLogica.ListaMarcas();
-                    marcaNueva.Add(new Marca { Descripcion = "Nueva marca" });
-                    cboMarca.DataSource = marcaNueva;
-                    cboMarca.ValueMember = "Id";
-                    cboMarca.DisplayMember = "Descripcion";
+                    // Verifica si la marca ya existe
+                    if (!listaConMarcas.Exists(m => m.Descripcion.ToLower() == descripcionMarca.ToLower()))
+                    {
+                        Marca nuavaMarca = new Marca { Descripcion = descripcionMarca };
+                        altaLogica.AgregarMarca(nuavaMarca);
+                        MessageBox.Show("Marca agregada.");
 
-                    cboMarca.DropDownStyle = ComboBoxStyle.DropDownList;
+                        // Actualiza la lista de marcas después de agregar la nueva
+                        List<Marca> mostrarMarcas = altaLogica.ListaMarcas();
+                        mostrarMarcas.Add(new Marca { Descripcion = "Nueva marca" });
+                        cboMarca.DataSource = null;
+                        cboMarca.DataSource = mostrarMarcas;
+                        cboMarca.ValueMember = "Id";
+                        cboMarca.DisplayMember = "Descripcion";
 
+                        // Modifica el cboMarca para que ya no se pueda escribir
+                        cboMarca.DropDownStyle = ComboBoxStyle.DropDownList;
+
+                        // Desactiva el botón Guardar marca
+                        btnGuardarMarca.Enabled = false;
+
+                        // Seleccionar automáticamente la nueva marca
+                        cboMarca.SelectedIndex = mostrarMarcas.FindIndex(m => m.Descripcion == descripcionMarca);
+
+                    }
+                    else
+                    {
+                        MessageBox.Show("La marca ya existe o no ha modificado el campo.");
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("No puede dejar este campo vacío.");
                 }
             }
             catch (Exception ex)
@@ -208,13 +249,30 @@ namespace Presentacion
         // Método que detecta si se seleccionó "Nueva categoría", y le permite escribir la nueva categoría deseada
         private void cboCategoria_SelectedIndexChanged(object sender, EventArgs e)
         {
-            string cateSelec = cboCategoria.SelectedItem.ToString();
-
-            if (cateSelec == "Nueva categoría")
+            if (!string.IsNullOrWhiteSpace(cboCategoria.Text))
             {
-                MessageBox.Show("Ingrese la nueva marca.");
-                cboCategoria.DropDownStyle = ComboBoxStyle.DropDown;
+                string cateSelec = cboCategoria.SelectedItem.ToString();
+
+                if (cateSelec == "Nueva categoría")
+                {
+                    MessageBox.Show("Ingrese la nueva categoría.");
+
+                    // Modifica el cboCategoría para que se pueda escribir
+                    cboCategoria.DropDownStyle = ComboBoxStyle.DropDown;
+
+                    // Activa el botón Guardar categoría
+                    btnGuardarCategoria.Enabled = true;
+                }
+                else
+                {
+                    // Modifica el cboCategoría para que ya no se pueda escribir
+                    cboCategoria.DropDownStyle = ComboBoxStyle.DropDownList;
+
+                    // Desavtiva el botón Guardar categoría
+                    btnGuardarCategoria.Enabled = false;
+                }
             }
+            
         }
 
         // Guarda la nueva categoría, llamando al método AgregarCategoria, y lo agraga al cboCategoria
@@ -224,21 +282,48 @@ namespace Presentacion
             {
                 string descripcionCate = cboCategoria.Text;
 
-                if (!(string.IsNullOrEmpty(descripcionCate)))
+                // Verifica si el campo Categoría está vacío
+                if (!string.IsNullOrEmpty(descripcionCate))
                 {
-                    Categoria nuevaCategoria = new Categoria { Descripcion = descripcionCate };
-                    altaLogica.AgregarCategoria(nuevaCategoria);
-                    MessageBox.Show("Categoría agregada");
+                    // Lista que contiene todas las categorías para comprobar si existe en la base de datos. También contiene un objeto nuevo 'Categoria' con la descripción 'Nueva categoría' para que no permita guardar una categoría llamada 'Nueva categoría' en la base de datos.
+                    List<Categoria> listaConCategorias = altaLogica.ListaCategorias();
+                    listaConCategorias.Add(new Categoria { Descripcion = "Nueva categoría" });
 
-                    List<Categoria> cateNueva = altaLogica.ListaCategorias();
-                    cateNueva.Add(new Categoria { Descripcion = "Nueva categoría" });
-                    cboCategoria.DataSource = cateNueva;
-                    cboCategoria.ValueMember = "Id";
-                    cboCategoria.DisplayMember = "Descripcion";
+                    // Verifica si la categoría ya existe
+                    if (!listaConCategorias.Exists(c => c.Descripcion.ToLower() == descripcionCate.ToLower()))
+                    {
+                        Categoria nuevaCategoria = new Categoria { Descripcion = descripcionCate };
+                        altaLogica.AgregarCategoria(nuevaCategoria);
+                        MessageBox.Show("Categoría agregada");
 
-                    cboCategoria.DropDownStyle = ComboBoxStyle.DropDownList;
+                        // Actualiza la lista de categorías después de agregar la nueva
+                        List<Categoria> mostrarCategorias = altaLogica.ListaCategorias();
+                        mostrarCategorias.Add(new Categoria { Descripcion = "Nueva categoría" });
+                        cboCategoria.DataSource = null;
+                        cboCategoria.DataSource = mostrarCategorias;
+                        cboCategoria.ValueMember = "Id";
+                        cboCategoria.DisplayMember = "Descripcion";
 
+                        // Modifica el cboCategoría para que ya no se pueda escribir
+                        cboCategoria.DropDownStyle = ComboBoxStyle.DropDownList;
+
+                        // Desactiva el botón Guardar categoría
+                        btnGuardarCategoria.Enabled = false;
+
+                        // Seleccionar automáticamente la nueva categoría
+                        cboCategoria.SelectedIndex = mostrarCategorias.FindIndex(c => c.Descripcion == descripcionCate);
+
+                    }
+                    else
+                    {
+                        MessageBox.Show("La categoría ya existe o no ha modificado el campo.");
+                    }
                 }
+                else
+                {
+                    MessageBox.Show("No puede dejar este campo vacío.");
+                }
+                
             }
             catch (Exception ex)
             {
